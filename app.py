@@ -1,5 +1,5 @@
 from flask import Flask
-from Entities.contracts import contact
+from Entities.contact import contact
 
 # init flask
 app = Flask(__name__)
