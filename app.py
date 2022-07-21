@@ -5,10 +5,10 @@ from Entities.contact import contact
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-# registrer entitis
+# registrer entities
 app.register_blueprint(contact)
 
-
+# init this application
 if __name__ == "__main__":
     app.run(debug=True)
 
