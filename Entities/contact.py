@@ -1,11 +1,13 @@
+import json
 from flask import Blueprint, jsonify
 from Helpers import helpers
 
 
 contact = Blueprint('contact', __name__)
 
-@contact.route('/api/v1/account/contact', methods=["GET"])
-def GetAlllContacts():
+
+@contact.route('/api/v1/customer/', methods=["GET"])
+def GetAllContacts():
     try:
         database = helpers.GetConnectionString()
         cur = database.cursor()
@@ -14,12 +16,23 @@ def GetAlllContacts():
         database.commit()
         dados = cur.fetchall()
         cur.close()
-        return jsonify(dados)
+        list = []
+        for dado in dados:
+            print(dado)
+            dict = {
+                "id": dado[0],
+                "nome": dado[1],
+                "telefone": dado[2],
+                "telefone 2": dado[3]
+            }
+            list.append(dict)
+        
+        return json.dumps(list)
     except:
-        return "Error"
+        return "Erro"
 
 
-@contact.route('/api/v1/account/contact', methods=["GET"])
+@contact.route('/api/v1/customer/<int:id>', methods=['POST', 'GET'])
 def GetById(id):
     try:
         database = helpers.GetConnectionString()
@@ -28,7 +41,14 @@ def GetById(id):
         cur.execute(sql)
         database.commit()
         dados = cur.fetchall()
+        dict = {
+            "id": dados[0][0],
+            "nome": dados[0][1],
+            "telefone": dados[0][2],
+            "telefone 2": dados[0][3]
+
+        }
         cur.close()
-        return jsonify(dados)
+        return jsonify(dict)
     except:
         return "Error"
